@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import Game from './Components/Game/Game/Game';
+import Home from './Components/Home';
+import { ROUTES } from './Constants/Routes';
+
+let jsonBoard = localStorage.getItem('board');
+let jsonX = localStorage.getItem('xNext');
+let board = jsonBoard !== null ? JSON.parse(jsonBoard) : null;
+let xNext = jsonX !== null ? JSON.parse(jsonX) : null;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route 
+          path={ROUTES.SOLO}
+          component={() =>
+            <Game currentBoard={board} xNext={xNext} />
+          } 
+        />
+        <Route path={ROUTES.ROOT} component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
